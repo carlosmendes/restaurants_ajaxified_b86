@@ -1,0 +1,29 @@
+// if the review has errors
+<% if @review.errors.any? %>
+  // render again the form with the errors
+
+  // generate the new form with errors
+  var new_form = "<%= j render 'reviews/form', restaurant: @restaurant, review: @review %>";
+
+  // render the new form with the errors
+  $('#new_review').html(new_form);
+<% else %>
+  // else update the show to render the new review
+  // generate the new review paragraph
+  var new_review = $("<%= j render 'reviews/show', review: @review %>").hide();
+
+  // add it to the reviews div
+  $('#reviews').append(new_review);
+
+  new_review.slideDown();
+
+  // reset the form
+  var new_form = "<%= j render 'reviews/form', restaurant: @restaurant, review: Review.new %>";
+  $('#new_review').html(new_form);
+
+  // update the reviews
+  $('#reviews-header').html("<%= j pluralize @restaurant.reviews.size, 'review' %>");
+
+  // remote first review comment
+  $('#first-review').hide();
+<% end %>
